@@ -4,6 +4,7 @@ require_once("../session.php");
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
@@ -25,6 +26,7 @@ require_once("../session.php");
      </ul>
 <?php } else {
  ?>
+
  <h3>Student Menu</h3>
  <ul>
    <li><a href="SelectTest.php">Take a New Test</a></li>
@@ -33,6 +35,8 @@ require_once("../session.php");
   <?php } ?>
   </nav>
   <br>
+
+  
  <a href="Logout.php" class="btn btn-delete">Logout</a>
  </div>
  </body>
