@@ -94,5 +94,17 @@ table tbody tr:hover { background-color:#3c4a60;
 .main-menu li a:hover {
     background-color:#1a202c;
     text-decoration:none; }
+.message {
+    color:#ffffff;
+    background-color:#2f855a;
+    border:1px solid #38a169; padding:10px;
+    border-radius:4px;
+    margin:15px 0;
+}
+
+.error { color:#ffffff; background-color:#9b2c2c;
+    border:1px solid #c53030;
+    padding:10px; border-radius:4px; margin:15px 0;
+}
 
 
