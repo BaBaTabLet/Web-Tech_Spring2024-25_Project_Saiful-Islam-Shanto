@@ -1,0 +1,25 @@
+<?php
+require_once("../Model/categoryModel.php");
+
+// --- LOGIC FOR ADDING A NEW CATEGORY ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_category'])) {
+    $categoryName = $_POST['category_name'];
+    if (!empty($categoryName)) {
+        $success = createCategory($categoryName);
+        $msg = $success ? "Category added successfully." : "Failed to add category.";
+        header("Location: ../View/CategoryManager.php?message=" . urlencode($msg));
+    } else {
+        header("Location: ../View/CategoryManager.php?error=Category name cannot be empty.");
+    }
+    exit;
+}
+
+// --- NEW LOGIC FOR DELETING A CATEGORY ---
+if (isset($_GET['delete_id'])) {
+    $categoryId = $_GET['delete_id'];
+    $success = deleteCategoryById($categoryId); // Call the new model function
+    $msg = $success ? "Category and all its questions have been deleted." : "Failed to delete category.";
+    header("Location: ../View/CategoryManager.php?message=" . urlencode($msg));
+    exit;
+}
+?>
