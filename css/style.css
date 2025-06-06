@@ -108,3 +108,6 @@ table tbody tr:hover { background-color:#3c4a60;
 }
 
 
+.action-buttons {
+    display:flex;  }
+.action-buttons.btn {margin-right:5px;}
