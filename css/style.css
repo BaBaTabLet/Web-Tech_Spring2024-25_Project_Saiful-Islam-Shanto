@@ -125,3 +125,13 @@ table tbody tr:hover { background-color:#3c4a60;
 .action-buttons {
     display:flex;  }
 .action-buttons.btn {margin-right:5px;}
+ 
+#timer{
+    font-size:2em;
+    color:#38a169;
+    position:fixed;
+    top:20px;
+    right:30px;background-color:#1a202c;
+    border:1px solid #4a5568;
+    padding:10px 20px;
+    border-radius:8px;}
