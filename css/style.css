@@ -108,6 +108,20 @@ table tbody tr:hover { background-color:#3c4a60;
 }
 
 
+.question {
+    background-color:#1a202c;
+    padding:20px;
+    border-radius:8px; margin-bottom:20px;
+    border:1px solid #4a5568;
+}
+.question h4 {
+    color:#f7fafc;
+    margin-top:0;
+}
+.action-buttons {
+    display:flex;
+}
+.action-buttons .btn { margin-right:5px; }
 .action-buttons {
     display:flex;  }
 .action-buttons.btn {margin-right:5px;}
