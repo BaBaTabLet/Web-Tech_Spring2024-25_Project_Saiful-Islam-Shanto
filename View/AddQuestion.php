@@ -1,90 +1,92 @@
 <?php
-require_once("../session.php");
-require_once("../Model/categoryModel.php");
-$categories = getAllCategories();
-$errors = $_SESSION['errors'] ?? [];
-unset($_SESSION['errors']);
+
+include("../session.php");
+include("../Model/categoryModel.php");
+
+$cats = getAllCategories();
+$errs = array();
+if (isset($_SESSION['errors'])) {
+    $errs = $_SESSION['errors'];
+    unset($_SESSION['errors']);
+
+}
+
 ?>
-<!DOCTYPE html>
+
+
 <html>
 <head>
     <title>Add Question</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Add New Question</h2>
+    <h2>Add New Question</h2>
 
-        <?php if (!empty($errors)): ?>
-            <div class="error">
-                <ul style="padding-left: 20px;">
-                    <?php foreach ($errors as $e): ?>
-                        <li><?php echo htmlspecialchars($e); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        <?php endif; ?>
+    <?php
 
-        <form action="../Controller/AddQuestionValidation.php" method="post">
-            Question Text:<br>
-            <textarea name="question_text" required></textarea><br><br>
+    if (!empty($errs)) {
+        echo "<div style='color:red'><ul>";
+        foreach ($errs as $e) {
+            echo "<li>" . $e . "</li>";
+        }
+        echo "</ul></div>";
+    }
+    ?>
 
-            Category:
-            <select name="category_id" required>
-                <option value="">Select a Category</option>
-                <?php foreach($categories as $cat): ?>
-                <option value="<?= $cat['category_id'] ?>"><?= htmlspecialchars($cat['category_name']) ?></option>
-                <?php endforeach; ?>
-            </select><br><br>
-            
-            Question Type:
-            <select name="question_type" id="question_type" onchange="updateAnswerFields()">
-                <option value="mcq">Multiple Choice</option>
-                <option value="essay">Essay</option>
-            </select><br><br>
+    <form action="../Controller/AddQuestionValidation.php" method="post">
+        <label>Question Text:</label><br>
+        <textarea name="question_text"></textarea><br><br>
 
-            <div id="answers_container"></div>
-            <button type="button" id="add_answer_btn" class="btn" onclick="addAnswerField()">Add Answer Field</button>
-            <hr>
-            <input type="submit" value="Save Question">
-        </form>
-        <br>
-        <a href="Home.php">Back to Home</a>
-    </div>
+        <label>Category:</label>
+        <select name="category_id">
+            <option value="">-- Select --</option>
+            <?php
+            foreach ($cats as $c) {
+                echo "<option value='" . $c['category_id'] . "'>" . $c['category_name'] . "</option>";
+            }
+            ?>
+        </select><br><br>
+
+        <label>Type:</label>
+        <select name="question_type" id="type" onchange="showAnswers()">
+            <option value="mcq">MCQ</option>
+            <option value="essay">Essay</option>
+        </select><br><br>
+
+        <div id="ans_div"></div>
+        <button type="button" onclick="addAns()">Add Answer</button><br><br>
+
+        <input type="submit" value="Save">
+    </form>
 
     <script>
-        let answerCount = 0;
+        let i=0;
 
-        function updateAnswerFields() {
-            const type = document.getElementById('question_type').value;
-            const container = document.getElementById('answers_container');
-            const addBtn = document.getElementById('add_answer_btn');
-            container.innerHTML = '';
-            answerCount = 0;
-            
-            if (type === 'mcq') {
-                addBtn.style.display = 'inline-block';
-                addAnswerField();
-                addAnswerField();
-            } else {
-                addBtn.style.display = 'none';
+        function showAnswers() {
+            var t = document.getElementById("type").value;
+            var d = document.getElementById("ans_div");
+            d.innerHTML = "";
+            i = 0;
+            if (t == "mcq") {
+                addAns();
+                addAns();
             }
         }
 
-        function addAnswerField() {
-            const container = document.getElementById('answers_container');
-            const newAnswer = document.createElement('div');
-            newAnswer.innerHTML = `
-                <div style="display: flex; align-items: center; margin-bottom: 10px;">
-                    <input type="text" name="answers[${answerCount}][text]" placeholder="Answer text" required style="flex-grow: 1; margin: 0 10px 0 0;">
-                    <label><input type="checkbox" name="answers[${answerCount}][is_correct]" value="1"> Correct</label>
-                </div>
-            `;
-            container.appendChild(newAnswer);
-            answerCount++;
+        function addAns() {
+            var d = document.getElementById("ans_div");
+            var box = document.createElement("div");
+            box.innerHTML ="<input type='text' name='answers[" + i + "][text]' placeholder='Answer'>" +
+                        "<input type='checkbox' name='answers[" + i + "][is_correct]' value='1'> Correct<br>";
+            d.appendChild(box);
+            i++;
+            
         }
 
-        document.addEventListener('DOMContentLoaded', updateAnswerFields);
+
+        window.onload = showAnswers;
+
+
     </script>
 </body>
 </html>
